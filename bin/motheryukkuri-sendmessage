@@ -1,0 +1,10 @@
+#!/bin/bash
+dir=`dirname $0`
+
+if [ "" = "$2" ]
+then
+	read -rd '' STDIN
+	php ${dir}/../app/libs/Skype/Bot/MotherYukkuri/Plugin/Messageserver/Client.php "$1" "$STDIN" > /dev/null
+else
+	php ${dir}/../app/libs/Skype/Bot/MotherYukkuri/Plugin/Messageserver/Client.php "$1" "$2" > /dev/null
+fi

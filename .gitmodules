@@ -1,0 +1,3 @@
+[submodule "vendors/php-skype"]
+	path = vendors/php-skype
+	url = https://github.com/fujimoto/php-skype.git

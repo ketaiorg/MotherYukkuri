@@ -1,0 +1,10 @@
+#!/bin/bash
+dir=`dirname $0`
+if [ -z $DISPLAY ]
+then
+	echo "Please check that skype is running." >&2
+	echo '[Unable to run without a $DISPLAY for X11]' >&2
+	exit 1
+else
+	php ${dir}/../app/libs/Skype/Bot/MotherYukkuri/Bootstrap.php
+fi
