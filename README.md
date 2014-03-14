@@ -72,8 +72,8 @@ GitHubからMotherYukkuriをcloneします。
 ### submoduleの更新
 
 vendors/php-skypeとなるようにPHP Skype API wrapper classを設置します。  
-git cloneで設置した場合は、以下のコマンドでsubmoduleを更新できます。  
-`$ git submodule update`  
+前項でgit cloneによって設置した場合は、submoduleとして登録されていますので以下のコマンドで設置できます。  
+`$ git submodule update --init vendors/php-skype`  
 
 
 ### Skypeの起動
