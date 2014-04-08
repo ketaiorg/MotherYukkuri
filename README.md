@@ -21,15 +21,18 @@ SkypeAPIとのやり取りは、GREE LabsのPHP Skype API wrapper class (php-sky
 
 このプログラムの実行環境にはLinux+PHP5.3以降を推奨しています。  
 また動作にはSkypeが起動できるX環境が必要です。  
+なお64bit環境では、PHP-DBusがSegmentation faultで異常終了することがあるようです。  
 
 
 
 ## セットアップ
 
+Ubuntu13.10へのインストールを例に説明します。  
+
 
 ### PHPをインストールします  
 このプログラムはPHPで書かれており実行に必要です。  
-`$ sudo apt-get install php5-cli`  
+`$ sudo apt-get install php5-cli php5-dev`  
 
 
 ### PHP-DBusをインストールします  
@@ -73,11 +76,13 @@ GitHubからMotherYukkuriをcloneします。
 
 vendors/php-skypeとなるようにPHP Skype API wrapper classを設置します。  
 前項でgit cloneによって設置した場合は、submoduleとして登録されていますので以下のコマンドで設置できます。  
+`$ cd MotherYukkuri`  
 `$ git submodule update --init vendors/php-skype`  
 
 
 ### Skypeの起動
-Skypeを立ち上げ、ボットとして利用したいアカウントでログインします。  
+SkypeのサイトからSkype for Linuxのdebパッケージをダウンロードしインストールします。  
+続いてSkypeを立ち上げ、ボットとして利用したいアカウントでログインします。  
 
 
 ### MotherYukkuriの起動
