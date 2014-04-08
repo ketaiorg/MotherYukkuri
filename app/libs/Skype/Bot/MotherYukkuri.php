@@ -40,7 +40,7 @@ class Skype_Bot_MotherYukkuri extends Skype_Bot_Plugin
 		'plugin_is_disabled' => false,					// プラグインを無効にする
 		'plugin_ignore_edited_messages' => true,		// 修正した発言を無視するか
 		'plugin_ignore_self_messages' => true,			// 自分自身の発言を無視するか（無限ループ防止の意味もあるのでfalseにするときは注意）
-		'plugin_loop_block_time' => 5,					// ループ防止のために同じ発言をブロックする時間（秒で指定）
+		'plugin_loop_block_time' => 15,					// ループ防止のために同じ発言をブロックする時間（秒で指定）
 		'plugin_sleep_time' => 1000000,					// 万が一ループした際に被害を抑えるためのスリープ時間（マイクロ秒で指定）
 	);
 
