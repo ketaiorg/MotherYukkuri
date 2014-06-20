@@ -24,6 +24,7 @@ class Skype_Bot_Plugin_Urltitle extends Skype_Bot_MotherYukkuri
 		'default_encoding' => 'UTF-8',		// デフォルトの文字コード
 		'format' => "title: [%s]",			// 出力フォーマット
 		'encoding_list' => 'UTF-8,Shift-JIS,EUC-JP,JIS',		// 検出エンコーディングの順番
+		'read_max_length' => 102400,		// 最大読み込みバイト数
 	);
 
 	/**
@@ -38,7 +39,7 @@ class Skype_Bot_Plugin_Urltitle extends Skype_Bot_MotherYukkuri
 			// URLが含まれている場合、URLの数だけ繰り返し
 			foreach ($url_matches[0] as $key => $url) {
 				// ページ内容を取得
-				$contents = @file_get_contents($url);
+				$contents = @file_get_contents($url, false, null, -1, $this->config['read_max_length']);
 				$contents = strtr($contents, array("\n" => '', "\r" => ''));		// 改行は取り除く
 
 				// 文字エンコーディングを取得
