@@ -32,7 +32,7 @@ Ubuntu13.10へのインストールを例に説明します。
 
 ### PHPをインストールします  
 このプログラムはPHPで書かれており実行に必要です。  
-`$ sudo apt-get install php5-cli php5-dev`  
+`$ sudo apt-get install php5-cli php5-curl php5-dev`  
 
 
 ### PHP-DBusをインストールします  
