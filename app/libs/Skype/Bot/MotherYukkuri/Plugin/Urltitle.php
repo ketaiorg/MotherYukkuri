@@ -68,9 +68,14 @@ class Skype_Bot_Plugin_Urltitle extends Skype_Bot_MotherYukkuri
 	protected function getEncoding($contents)
 	{
 		// metaタグから文字コードを取得
-		if (preg_match('/<meta .*?content=(\'|")text\/html; ?charset=(.+?)(\'|")/i', $contents, $charset_matches)) {
+		if (preg_match('/<meta charset=(\'|")(.+?)(\'|")/i', $contents, $charset_matches)) {
+			// HTML5形式での書き方を優先
+			$encoding = $charset_matches[2];
+		} elseif (preg_match('/<meta .*?content=(\'|")text\/html; ?charset=(.+?)(\'|")/i', $contents, $charset_matches)) {
+			// 続いてHTML4形式
 			$encoding = $charset_matches[2];
 		} else {
+			// どちらも無ければ自動検出
 			$encoding = mb_detect_encoding($contents, $this->config['encoding_list']);
 			if (false === $encoding) {
 				$encoding = 'UTF-8';
