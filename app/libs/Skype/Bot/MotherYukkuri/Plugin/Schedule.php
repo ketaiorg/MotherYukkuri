@@ -77,7 +77,7 @@ class Skype_Bot_Plugin_Schedule extends Skype_Bot_MotherYukkuri
 			$url = 'http://www.google.com/calendar/feeds/'
 				. $row['userid']
 				. '/' . $row['magiccookie']
-				. '/full?'
+				. '/basic?'
 				. 'start-min=' . $start_date . 'T00:00:00'
 				. '&start-max=' . $end_date . 'T23:59:59'
 				. '&orderby=starttime&sortorder=a&singleevents=true';
@@ -103,24 +103,9 @@ class Skype_Bot_Plugin_Schedule extends Skype_Bot_MotherYukkuri
 
 		// 予定の数だけ繰り返し
 		foreach ($xml->entry as $item) {
-			$gd = $item->children('http://schemas.google.com/g/2005');
-			$msg .= ' - (';
-			if (10 == strlen($gd->when->attributes()->startTime) and 10 == strlen($gd->when->attributes()->endTime)) {
-				// 終日指定の場合
-				$start_date = date('m/d', strtotime($gd->when->attributes()->startTime));
-				$end_date = date('m/d', strtotime($gd->when->attributes()->endTime) - 1);
-				if ($start_date == $end_date) {
-					// 範囲が1日だけの場合
-					$msg .= $start_date;
-				} else {
-					// 範囲が複数日の場合
-					$msg .= sprintf('%s～%s', $start_date, $end_date);
-				}
-			} else {
-				// 時刻指定がある場合
-				$msg .= sprintf('%s～%s', date('H:i', strtotime($gd->when->attributes()->startTime)), date('H:i', strtotime($gd->when->attributes()->endTime)));
-			}
-			$msg .= ') ' . $item->title . "\n";
+			$tmp_arr = explode('<br>', html_entity_decode($item->summary));
+			$period = strtr(html_entity_decode($tmp_arr[0]), array("\n" => '', 'JST' => '', ' ' => ''));
+			$msg .= ' - [' . $period . '] ' . $item->title . "\n";
 		}
 
 		if (0 === count($xml->entry)) {
