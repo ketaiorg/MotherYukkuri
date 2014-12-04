@@ -52,7 +52,7 @@ class Skype_Bot_Plugin_Lunch extends Skype_Bot_MotherYukkuri
 		$map_name = strval($xml->Document->name);
 
 		// 表示する数を決定
-		$xml_count = count($xml->Document->Placemark);
+		$xml_count = count($xml->Document->Folder->Placemark);
 		if ($xml_count < $arg) {
 			$num = $xml_count;
 		} else {
@@ -71,8 +71,8 @@ class Skype_Bot_Plugin_Lunch extends Skype_Bot_MotherYukkuri
 		$i = 0;
 		foreach ($target as $item) {
 			// 整形と格納
-			$shop_name = strval($xml->Document->Placemark[$item]->name);
-			$shop_description = strip_tags(strtr(strval($xml->Document->Placemark[$item]->description), array('<br>' => "\n")));
+			$shop_name = strval($xml->Document->Folder->Placemark[$item]->name);
+			$shop_description = strip_tags(strtr(strval($xml->Document->Folder->Placemark[$item]->description), array('<br>' => "\n")));
 			$i++;
 			$msg .= sprintf($this->config['message_shopinfo'], $i, $shop_name, $shop_description);
 		}
