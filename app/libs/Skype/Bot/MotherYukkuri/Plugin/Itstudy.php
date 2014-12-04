@@ -66,7 +66,7 @@ class Skype_Bot_Plugin_Itstudy extends Skype_Bot_MotherYukkuri
 			$url = 'http://www.google.com/calendar/feeds/'
 				. $row['userid']
 				. '/' . $row['magiccookie']
-				. '/full?'
+				. '/basic?'
 				. 'start-min=' . $start_date . 'T00:00:00'
 				. '&start-max=' . $end_date . 'T23:59:59'
 				. '&orderby=starttime&sortorder=a&singleevents=true';
@@ -92,11 +92,9 @@ class Skype_Bot_Plugin_Itstudy extends Skype_Bot_MotherYukkuri
 
 		// 予定の数だけ繰り返し
 		foreach ($xml->entry as $item) {
-			$gd = $item->children('http://schemas.google.com/g/2005');
-			$msg .= sprintf(" - (%s～%s) %s\n", date('m/d H:i', strtotime($gd->when->attributes()->startTime)), date('H:i', strtotime($gd->when->attributes()->endTime)), $item->title);
-			if (isset($item->content) and '' != $item->content) {
-				$msg .= strip_tags($item->content) . "\n";
-			}
+			$tmp_arr = explode('<br>', html_entity_decode($item->summary));
+			$period = strtr(html_entity_decode($tmp_arr[0]), array("\n" => '', 'JST' => '', ' ' => ''));
+			$msg .= ' - [' . $period . '] ' . $item->title . "\n";
 		}
 		$msg .= "\n";
 
