@@ -50,7 +50,7 @@ class Skype_Bot_Plugin_Eiga extends Skype_Bot_MotherYukkuri
 			}
 		}
 
-		$msg = $this->config['title'] . "\n";
+		$msg = $this->config['title'];
 		$msg .= html_entity_decode($html);						// エンティティを戻す
 		$msg = strtr($msg, array('<tr><td>' => "\n- "));		// 読みやすくする
 		$msg = trim(strip_tags($msg));							// タグを削除
