@@ -50,9 +50,11 @@ class Skype_Bot_Plugin_Jr extends Skype_Bot_MotherYukkuri
 		}
 
 		$msg = html_entity_decode($html);						// エンティティを戻す
+		$msg = strtr($msg, array("<HR SIZE=1 NOSHADE COLOR=#E6E6FA>" => "%%BR%%", "<BR>" => "%%BR%%"));
 		$msg = trim(strip_tags($msg));							// タグを削除
 		$msg = strtr($msg, array("\r" => "", "\t" => ""));		// 改行とタブを削除
 		$msg = strtr($msg, array("\n\n" => "", "  " => ""));	// 連続する改行とスペースを削除
+		$msg = strtr($msg, array("%%BR%%" => "\n"));
 		$msg .= "\n\n" . $this->config['target_url'];
 
 		// 発言
