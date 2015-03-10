@@ -18,9 +18,10 @@ class Skype_Bot_Plugin_Eiga extends Skype_Bot_MotherYukkuri
 		// 標準設定項目
 		'plugin_trigger' => '/^\:eiga( .+)?$/',
 		'plugin_usage' => 'Usage: :eiga',
-		'plugin_info' => 'ユナイテッドシネマの上映情報を表示します',
+		'plugin_info' => '映画館の上映情報を表示します',
 
 		// 対象URL定義
+		'title' => 'ユナイテッドシネマの上映情報',
 		'target_url' => 'http://www.eigakan.org/theaters/area/0101',
 		'source_encoding' => 'UTF-8',
 		'start_mark' => '0570-78-3011',
@@ -49,8 +50,9 @@ class Skype_Bot_Plugin_Eiga extends Skype_Bot_MotherYukkuri
 			}
 		}
 
-		$msg = html_entity_decode($html);						// エンティティを戻す
-		$msg = strtr($msg, array('<tr><td>' => "\n - "));		// 読みやすくする
+		$msg = $this->config['title'] . "\n";
+		$msg .= html_entity_decode($html);						// エンティティを戻す
+		$msg = strtr($msg, array('<tr><td>' => "\n- "));		// 読みやすくする
 		$msg = trim(strip_tags($msg));							// タグを削除
 		$msg .= "\n\n" . $this->config['target_url'];
 
