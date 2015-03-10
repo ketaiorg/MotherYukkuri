@@ -127,7 +127,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 					}
 					$id_text = strip_tags($id_html);
 
-					$msg .= $id_text . "\n";
+					$msg .= $id_text . "\n\n\n";
 				}
 			}
 		}
@@ -137,7 +137,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 			$target_chatlist = $this->getChatIdsByTopic($this->config['target_chat']);
 			if (!empty($target_chatlist)) {
 				$chat_target = $this->getInstanceById($target_chatlist[0]);		// 複数候補が見つかった場合は先頭を利用
-				$chat_target->postMessage($id_text);
+				$chat_target->postMessage($msg);
 			}
 		}
 	}
