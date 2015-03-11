@@ -87,31 +87,13 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 					continue;
 				} else {
 					// ファイルがない場合作成
-
-					if (false === @file_put_contents($this->getDataPath($id), time())) {
-						// ファイルの出力に失敗
-						fputs(STDERR, sprintf("ERROR! Could not create data files. (%s)\n", $url));
-
-						// 以後のポーリングをストップ
-						fputs(STDERR, "Stop plugin.");
-						$this->setPolling(0);
-						break;
-					}
+					$this->putData($id, time());
 
 					// データを取得して出力
 					$id_html = @file_get_contents('http://eiga.com/movie/' . $id . substr($this->config['target_url'], 15) . 'mail/');
 
-					// 切り出し処理
-					$start_mark = '<textarea name="form_area" rows="10" id="form_area">';
-					$tmp_html = mb_substr(strstr($id_html, $start_mark), mb_strlen($start_mark));
-					if ('' != $tmp_html) {
-						$id_html = $tmp_html;
-					}
-					$end_mark = '</textarea>';
-					$tmp_html = strstr($id_html, $end_mark, true);
-					if ('' != $tmp_html) {
-						$id_html = $tmp_html;
-					}
+					// 切り出しとタグの取り除き
+					$id_html = $this->snipString($id_html, '<textarea name="form_area" rows="10" id="form_area">', '</textarea>');
 					$id_text = strip_tags($id_html);
 
 					$msg .= $id_text . "\n\n\n";
@@ -138,6 +120,47 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 	{
 		// ディレクトリの下にURLエンコードしたファイル名で格納
 		return dirname(realpath(__FILE__)) . '/Cinemawatch/' . urlencode($id);
+	}
+
+	/**
+	 * データファイル書き込み
+	 * @param string $id 映画ごとのID
+	 * @param string $contents ファイルの中に書く文字列
+	 */
+	protected function putData($id, $contents)
+	{
+		if (false === @file_put_contents($this->getDataPath($id), $contents)) {
+			// ファイルの出力に失敗
+			fputs(STDERR, sprintf("ERROR! Could not create data files. (%s)\n", $this->config['target_url']));
+
+			// 以後のポーリングをストップ
+			fputs(STDERR, "Stop plugin.");
+			$this->setPolling(0);
+			break;
+		}
+	}
+
+	/**
+	 * テキスト切り出し
+	 * 指定した開始位置から終了位置までの文字列を切り出す
+	 * @param string $text 全体の文字列
+	 * @param string $start_mark 開始位置を示す文字列
+	 * @param string $endt_mark 終了位置を示す文字列
+	 * @return string 切り出された文字列
+	 */
+	protected function snipString($text, $start_mark, $end_mark)
+	{
+		// 切り出し処理
+		$tmp_text = mb_substr(strstr($text, $start_mark), mb_strlen($start_mark));
+		if ('' != $tmp_text) {
+			$text = $tmp_text;
+		}
+		$tmp_text = strstr($text, $end_mark, true);
+		if ('' != $tmp_text) {
+			$text = $tmp_text;
+		}
+
+		return $text;
 	}
 
 	/**
