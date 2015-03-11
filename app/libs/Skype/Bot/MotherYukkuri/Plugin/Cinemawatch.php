@@ -136,7 +136,6 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 			// 以後のポーリングをストップ
 			fputs(STDERR, "Stop plugin.");
 			$this->setPolling(0);
-			break;
 		}
 	}
 
