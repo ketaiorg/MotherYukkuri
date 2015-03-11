@@ -16,7 +16,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 	 */
 	protected $config = array(
 		// 標準設定項目
-		'plugin_trigger' => '/^$/',
+		'plugin_trigger' => '/^:cinemawatch$/',
 		'plugin_usage' => 'Usage: 自動的に定期実行されます',
 		'plugin_info' => '映画情報を監視し更新があれば発言します',
 
@@ -26,7 +26,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 		// 取得結果を書き込むチャット
 		'target_chat' => '',
 
-		'interval' => 3600,					// RSSをチェックしに行く間隔
+		'interval' => 3600,					// チェックしに行く間隔
 	);
 
 	/**
@@ -43,19 +43,6 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 	 */
 	protected function execute()
 	{
-		// リスト表示
-		$this->postList();
-	}
-
-	/**
-	 * リスト出力
-	 */
-	protected function postList()
-	{
-		$msg = $this->config['post_message'];
-		//$msg .= strtr($this->config['list_format'], array('%%URL%%' => $url));
-
-		$this->postMessage($msg);
 	}
 
 	/**
@@ -63,7 +50,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 	 */
 	protected function poll_execute()
 	{
-		// RSSチェック処理を行う
+		// チェック処理を行う
 		if ('' != $this->config['target_chat']) {
 			$this->checkCinemawatch();
 		}
@@ -149,7 +136,7 @@ class Skype_Bot_Plugin_Cinemawatch extends Skype_Bot_MotherYukkuri
 	 */
 	protected function getDataPath($id)
 	{
-		// RSSディレクトリの下にURLエンコードしたファイル名で格納
+		// ディレクトリの下にURLエンコードしたファイル名で格納
 		return dirname(realpath(__FILE__)) . '/Cinemawatch/' . urlencode($id);
 	}
 
